@@ -63,13 +63,14 @@ export function Header() {
                 }}
             >
                 <Logo />
-
+                
                 <Stack direction="row" sx={{ alignItems: 'center' }}>
                     <Save />
                     <Import key="studylist" />
                     {sessionIsValid ? <Signout /> : <Signin />}
-                    <AppDrawer key="settings" />
                 </Stack>
+                
+                
 
                 <AlertDialog
                     open={openSuccessfulSaved}
