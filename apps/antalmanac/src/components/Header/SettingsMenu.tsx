@@ -132,94 +132,63 @@ function TimeMenu() {
     const [isMilitaryTime, setTimeFormat] = useTimeFormatStore((store) => [store.isMilitaryTime, store.setTimeFormat]);
     const isDark = useThemeStore((store) => store.isDark);
 
-    const handleTimeFormatChange = (event: React.MouseEvent<HTMLButtonElement>) => {
-        setTimeFormat(event.currentTarget.value === 'true');
+    const handleTimeFormatChange = (value: boolean) => {
+        setTimeFormat(value);
     };
 
     return (
-        <Box sx={{ padding: '0.5rem 0rem 0rem 0rem', width: '100%' }}>
-            <Typography variant="h5" style={{ fontWeight: 600, marginBottom: '0.5rem' }}>
+        <Box sx={{ pt: 0.5, width: '100%' }}>
+            <Typography variant="h5" sx={{ fontWeight: 600, mb: 0.5 }}>
                 Time
             </Typography>
 
-            <ButtonGroup
+            <Box
                 sx={{
-                    width: '100%',
-                    marginBottom: '12px',
                     display: 'flex',
                     border: `1px solid ${isDark ? '#8886' : '#d3d4d5'}`,
-                    '& .MuiButtonGroup-grouped': {
-                        border: 'none',
-                        '&:not(:last-of-type)': {
-                            borderRight: `1px solid ${isDark ? '#8886' : '#d3d4d5'} !important`,
-                        },
-                    },
-                    '& .MuiButton-root': {
-                        borderTop: 'none !important',
-                        borderBottom: 'none !important',
-                        borderLeft: 'none !important',
-                        '&:focus': {
-                            outline: 'none',
-                            boxShadow: 'none',
-                        },
-                        '&:focus-visible': {
-                            outline: 'none',
-                            boxShadow: 'none',
-                        },
-                        '&:active': {
-                            outline: 'none',
-                            boxShadow: 'none',
-                            border: 'none',
-                        },
-                        '&.Mui-focusVisible': {
-                            outline: 'none',
-                            boxShadow: 'none',
-                        },
-                    },
+                    borderRadius: '4px',
+                    mb: 1.5,
                 }}
             >
                 {[
-                    { value: 'false', label: '12 Hour' },
-                    { value: 'true', label: '24 Hour' },
-                ].map((tab) => {
-                    const isSelected = isMilitaryTime.toString() === tab.value;
+                    { value: false, label: '12 Hour' },
+                    { value: true, label: '24 Hour' },
+                ].map((tab, index) => {
+                    const isSelected = isMilitaryTime === tab.value;
 
                     return (
-                        <Button
-                            key={tab.value}
-                            disableRipple
+                        <Box
+                            key={tab.value.toString()}
+                            onClick={() => handleTimeFormatChange(tab.value)}
                             sx={{
-                                padding: '6px 20px',
-                                width: '100%',
+                                flex: 1,
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                padding: '8px 20px',
+                                cursor: 'pointer',
                                 fontWeight: 'bold',
-                                textTransform: 'none',
+                                fontSize: '1.1rem',
                                 backgroundColor: isSelected ? '#1976d2' : isDark ? '#333333' : '#f8f9fa',
                                 color: isSelected ? '#fff' : '#1976d2',
-                                outline: 'none',
-                                boxShadow: 'none',
-                                fontSize: '1.1rem',
-                                border: 'none !important',
+                                borderRight: index === 0 ? `1px solid ${isDark ? '#8886' : '#d3d4d5'}` : 'none',
+                                borderTopLeftRadius: index === 0 ? 4 : 0,
+                                borderBottomLeftRadius: index === 0 ? 4 : 0,
+                                borderTopRightRadius: index === 1 ? 4 : 0,
+                                borderBottomRightRadius: index === 1 ? 4 : 0,
                                 '&:hover': {
                                     backgroundColor: isSelected ? '#1976d2' : isDark ? '#424649' : '#d3d4d5',
-                                    border: 'none !important',
-                                    boxShadow: 'none',
-                                },
-                                '&:active': {
-                                    border: 'none !important',
                                 },
                             }}
-                            value={tab.value}
-                            onClick={handleTimeFormatChange}
                         >
                             {tab.label}
-                        </Button>
+                        </Box>
                     );
                 })}
-            </ButtonGroup>
+            </Box>
         </Box>
     );
 }
-
 function ExperimentalMenu() {
     const [previewMode, setPreviewMode] = usePreviewStore((store) => [store.previewMode, store.setPreviewMode]);
     const [autoSave, setAutoSave] = useAutoSaveStore((store) => [store.autoSave, store.setAutoSave]);
