@@ -12,6 +12,8 @@ import { scheduleComponentsToggleStore } from '$stores/ScheduleComponentsToggleS
 import { useSessionStore } from '$stores/SessionStore';
 import { usePreviewStore, useThemeStore, useTimeFormatStore, useAutoSaveStore } from '$stores/SettingsStore';
 import { User } from '@packages/antalmanac-types';
+import { useTheme } from '@mui/material/styles';
+
 
 const lightSelectedStyle: CSSProperties = {
     backgroundColor: '#1976d2',
@@ -250,6 +252,7 @@ function ExperimentalMenu() {
 
 function UserProfileSection({ user }: { user: User | null }) {
     if (!user) return null;
+    const theme = useTheme()
 
     return (
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
@@ -275,12 +278,13 @@ function UserProfileSection({ user }: { user: User | null }) {
                 <Typography
                     style={{
                         fontSize: '14px',
-                        color: '#606166',
+                        color: theme.palette.mode === 'dark' ? '#96969b' : '#606166',
                         overflow: 'hidden',
                         textOverflow: 'ellipsis',
                         paddingBottom: '4px',
                         margin: 0,
                         lineHeight: 1,
+                        fontWeight: 600
                     }}
                 >
                     {user.email}
