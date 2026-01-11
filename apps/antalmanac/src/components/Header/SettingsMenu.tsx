@@ -1,16 +1,7 @@
-import { LightMode, SettingsBrightness, DarkMode, Help,  } from '@mui/icons-material';
-import {
-    Avatar,
-    Box,
-    Divider,
-    Stack,
-    Switch,
-    Tooltip,
-    Typography,
-} from '@mui/material';
+import { LightMode, SettingsBrightness, DarkMode, Help } from '@mui/icons-material';
+import { Avatar, Box, Divider, Stack, Switch, Tooltip, Typography } from '@mui/material';
 import { CSSProperties } from '@mui/material/styles/createTypography';
 import { usePostHog } from 'posthog-js/react';
-
 
 import actionTypesStore from '$actions/ActionTypesStore';
 import { autoSaveSchedule } from '$actions/AppStoreActions';
@@ -28,7 +19,7 @@ const lightSelectedStyle: CSSProperties = {
 };
 
 const darkSelectedStyle: CSSProperties = {
-    backgroundColor: '#1976d2', 
+    backgroundColor: '#1976d2',
     color: '#fff',
 };
 
@@ -38,7 +29,7 @@ const lightUnselectedStyle: CSSProperties = {
 };
 
 const darkUnselectedStyle: CSSProperties = {
-    backgroundColor: 'transparent', 
+    backgroundColor: 'transparent',
     color: 'inherit',
 };
 
@@ -120,13 +111,13 @@ function ThemeMenu() {
         </Box>
     );
 }
-
 function TimeMenu() {
     const [isMilitaryTime, setTimeFormat] = useTimeFormatStore((store) => [store.isMilitaryTime, store.setTimeFormat]);
     const isDark = useThemeStore((store) => store.isDark);
 
-    const handleTimeFormatChange = (value: boolean) => {
-        setTimeFormat(value);
+    const handleTimeFormatChange = (event: React.MouseEvent<HTMLDivElement>) => {
+        const value = event.currentTarget.getAttribute('data-value');
+        setTimeFormat(value === 'true');
     };
 
     return (
@@ -143,41 +134,53 @@ function TimeMenu() {
                     mb: 1.5,
                 }}
             >
-                {[
-                    { value: false, label: '12 Hour' },
-                    { value: true, label: '24 Hour' },
-                ].map((tab, index) => {
-                    const isSelected = isMilitaryTime === tab.value;
-
-                    return (
-                        <Box
-                            key={tab.value.toString()}
-                            onClick={() => handleTimeFormatChange(tab.value)}
-                            sx={{
-                                flex: 1,
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                padding: '8px 20px',
-                                cursor: 'pointer',
-                                fontWeight: 'bold',
-                                fontSize: '1.1rem',
-                                backgroundColor: isSelected ? '#1976d2' : isDark ? '#333333' : '#f8f9fa',
-                                color: isSelected ? '#fff' : '#1976d2',
-                                borderRight: index === 0 ? `1px solid ${isDark ? '#8886' : '#d3d4d5'}` : 'none',
-                                borderTopLeftRadius: index === 0 ? 4 : 0,
-                                borderBottomLeftRadius: index === 0 ? 4 : 0,
-                                borderTopRightRadius: index === 1 ? 4 : 0,
-                                borderBottomRightRadius: index === 1 ? 4 : 0,
-                                '&:hover': {
-                                    backgroundColor: isSelected ? '#1976d2' : isDark ? '#424649' : '#d3d4d5',
-                                },
-                            }}
-                        >
-                            {tab.label}
-                        </Box>
-                    );
-                })}
+                <Box
+                    data-value="false"
+                    onClick={handleTimeFormatChange}
+                    sx={{
+                        flex: 1,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        padding: '8px 20px',
+                        cursor: 'pointer',
+                        fontWeight: 'bold',
+                        fontSize: '1.1rem',
+                        backgroundColor: !isMilitaryTime ? '#1976d2' : isDark ? '#333333' : '#f8f9fa',
+                        color: !isMilitaryTime ? '#fff' : '#1976d2',
+                        borderRight: `1px solid ${isDark ? '#8886' : '#d3d4d5'}`,
+                        borderTopLeftRadius: 4,
+                        borderBottomLeftRadius: 4,
+                        '&:hover': {
+                            backgroundColor: !isMilitaryTime ? '#1976d2' : isDark ? '#424649' : '#d3d4d5',
+                        },
+                    }}
+                >
+                    12 Hour
+                </Box>
+                <Box
+                    data-value="true"
+                    onClick={handleTimeFormatChange}
+                    sx={{
+                        flex: 1,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        padding: '8px 20px',
+                        cursor: 'pointer',
+                        fontWeight: 'bold',
+                        fontSize: '1.1rem',
+                        backgroundColor: isMilitaryTime ? '#1976d2' : isDark ? '#333333' : '#f8f9fa',
+                        color: isMilitaryTime ? '#fff' : '#1976d2',
+                        borderTopRightRadius: 4,
+                        borderBottomRightRadius: 4,
+                        '&:hover': {
+                            backgroundColor: isMilitaryTime ? '#1976d2' : isDark ? '#424649' : '#d3d4d5',
+                        },
+                    }}
+                >
+                    24 Hour
+                </Box>
             </Box>
         </Box>
     );
@@ -299,5 +302,3 @@ export function SettingsMenu({ user }: { user: User | null }) {
         </Box>
     );
 }
-
-
