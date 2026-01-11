@@ -1,23 +1,16 @@
-import { LightMode, Close, SettingsBrightness, DarkMode, Help, MenuRounded } from '@mui/icons-material';
+import { LightMode, SettingsBrightness, DarkMode, Help,  } from '@mui/icons-material';
 import {
     Avatar,
     Box,
-    Button,
-    ButtonGroup,
     Divider,
-    Drawer,
     Stack,
     Switch,
     Tooltip,
     Typography,
-    useMediaQuery,
 } from '@mui/material';
-import IconButton from '@mui/material/IconButton';
 import { CSSProperties } from '@mui/material/styles/createTypography';
 import { usePostHog } from 'posthog-js/react';
-import { useCallback, useState } from 'react';
 
-import { About } from './About';
 
 import actionTypesStore from '$actions/ActionTypesStore';
 import { autoSaveSchedule } from '$actions/AppStoreActions';
@@ -30,12 +23,12 @@ import { usePreviewStore, useThemeStore, useTimeFormatStore, useAutoSaveStore } 
 import { User } from '@packages/antalmanac-types';
 
 const lightSelectedStyle: CSSProperties = {
-    backgroundColor: '#1976d2', // MUI primary main color
+    backgroundColor: '#1976d2',
     color: '#fff',
 };
 
 const darkSelectedStyle: CSSProperties = {
-    backgroundColor: '#1976d2', // Same as light - uses primary color
+    backgroundColor: '#1976d2', 
     color: '#fff',
 };
 
@@ -45,7 +38,7 @@ const lightUnselectedStyle: CSSProperties = {
 };
 
 const darkUnselectedStyle: CSSProperties = {
-    backgroundColor: 'transparent', // PeterPortal doesn't set a background for dark unselected
+    backgroundColor: 'transparent', 
     color: 'inherit',
 };
 
@@ -307,6 +300,4 @@ export function SettingsMenu({ user }: { user: User | null }) {
     );
 }
 
-function AppDrawer() {}
 
-export default AppDrawer;
