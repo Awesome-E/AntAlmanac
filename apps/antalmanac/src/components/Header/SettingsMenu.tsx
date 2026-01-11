@@ -257,7 +257,7 @@ function UserProfileSection({ user }: { user: User | null }) {
     return (
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
             <Avatar
-                src={user.avatar ?? '/default-avatar.png'}
+                src={user.avatar}
                 alt={user.name ?? 'User'}
                 sx={{ width: 50, height: 50 }}
             />
