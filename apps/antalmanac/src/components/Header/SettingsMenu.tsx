@@ -5,6 +5,8 @@ import { usePostHog } from 'posthog-js/react';
 
 import actionTypesStore from '$actions/ActionTypesStore';
 import { autoSaveSchedule } from '$actions/AppStoreActions';
+import { PlannerButton } from '$components/buttons/Planner';
+import { useIsMobile } from '$hooks/useIsMobile';
 import { getLocalStorageUserId } from '$lib/localStorage';
 import appStore from '$stores/AppStore';
 import { useCoursePaneStore } from '$stores/CoursePaneStore';
@@ -191,6 +193,19 @@ function TimeMenu() {
         </Box>
     );
 }
+
+function PlannerMenu() {
+    return (
+        <Box sx={{ padding: '0 1rem', width: '100%', display: 'flex', justifyContent: 'center' }}>
+            <PlannerButton
+                buttonSx={{
+                    width: '100%',
+                }}
+            />
+        </Box>
+    );
+}
+
 function ExperimentalMenu() {
     const [previewMode, setPreviewMode] = usePreviewStore((store) => [store.previewMode, store.setPreviewMode]);
     const [autoSave, setAutoSave] = useAutoSaveStore((store) => [store.autoSave, store.setAutoSave]);
@@ -217,7 +232,7 @@ function ExperimentalMenu() {
 
         if (!savedUserID) return;
         actionTypesStore.emit('autoSaveStart');
-        await autoSaveSchedule(savedUserID, postHog);
+        await autoSaveSchedule(savedUserID, undefined, postHog);
         appStore.unsavedChanges = false;
         actionTypesStore.emit('autoSaveEnd');
     };
@@ -296,21 +311,33 @@ function UserProfileSection({ user }: { user: User | null }) {
 }
 
 export function SettingsMenu({ user }: { user: User | null }) {
+        const isMobile = useIsMobile();
     return (
-        <Box>
+        <Stack>
             <UserProfileSection user={user} />
+
             <ThemeMenu />
             <TimeMenu />
 
-            <Divider style={{ marginTop: '16px' }}>
-                <Typography variant="subtitle2">Experimental Features</Typography>
-            </Divider>
+            {isMobile && (
+                <Stack gap={2}>
+                    <Divider>
+                        <Typography variant="subtitle2">Want a 4-year plan?</Typography>
+                    </Divider>
 
+                    <PlannerMenu />
+                </Stack>
+            )}
 
-            <ExperimentalMenu />
-            <Divider style={{ marginTop: '12px', marginBottom: '10px' }}/>
+            <Stack >
+                <Divider>
+                    <Typography variant="subtitle2">Experimental Features</Typography>
+                </Divider>
 
-            <About />
-        </Box>
+                <ExperimentalMenu />
+                <Divider style={{ marginTop: '10px', marginBottom: '12px' }}/>
+                <About/>
+            </Stack>
+        </Stack>
     );
 }
