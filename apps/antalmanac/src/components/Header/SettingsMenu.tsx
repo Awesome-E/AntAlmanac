@@ -300,11 +300,12 @@ export function SettingsMenu({ user }: { user: User | null }) {
         <Box>
             <UserProfileSection user={user} />
             <ThemeMenu />
+            <TimeMenu />
 
             <Divider style={{ marginTop: '16px' }}>
                 <Typography variant="subtitle2">Experimental Features</Typography>
             </Divider>
-            <TimeMenu />
+
 
             <ExperimentalMenu />
             <Divider style={{ marginTop: '12px', marginBottom: '10px' }}/>
