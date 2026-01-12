@@ -13,6 +13,7 @@ import { useSessionStore } from '$stores/SessionStore';
 import { usePreviewStore, useThemeStore, useTimeFormatStore, useAutoSaveStore } from '$stores/SettingsStore';
 import { User } from '@packages/antalmanac-types';
 import { useTheme } from '@mui/material/styles';
+import { About } from '$components/Header/About';
 
 
 const lightSelectedStyle: CSSProperties = {
@@ -306,6 +307,9 @@ export function SettingsMenu({ user }: { user: User | null }) {
             <TimeMenu />
 
             <ExperimentalMenu />
+            <Divider style={{ marginTop: '12px', marginBottom: '10px' }}/>
+
+            <About />
         </Box>
     );
 }
